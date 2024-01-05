@@ -1,4 +1,35 @@
+import express from 'express'
 import { prismaClient } from "./database";
+import productRouter from './routes/products';
+
+const app = express();
+app.use(express.json());
+
+const port = process.env.PORT ?? 4000;
+
+app.use('/', productRouter)
+
+app.listen(port, () => console.log('Server is running on port', port))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // ### CREATE
@@ -12,14 +43,6 @@ async function create() {
     },
   });
   console.log(produt);
-  prismaClient.$disconnect();
-}
-
-
-// ### READ
-async function read() {
-  const products = await prismaClient.product.findMany();
-  console.log(products);
   prismaClient.$disconnect();
 }
 
