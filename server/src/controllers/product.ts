@@ -31,20 +31,37 @@ export const getProducts = async (req: Request, res: Response) => {
 
 // ### UPDATE
 export const updateProduct = async (req: Request, res: Response) => {
-  const { code, name, description, price } = req.body;
+  const { code } = req.params;
+  const { name, description, price } = req.body;
+
   try {
     const product = await prismaClient.product.update({
       where: {
-        code,
+        code: parseInt(code),
       },
       data: {
-        code,
         name,
-        description,
         price,
+        description,
       },
     });
+
     res.status(200).json("Produto atualizado com sucesso!");
+  } catch (err) {
+    res.json(err);
+  }
+};
+
+// ### DELETE
+export const deleteProduct = async (req: Request, res: Response) => {
+  const { code } = req.params;
+  try {
+    const product = await prismaClient.product.delete({
+      where: {
+        code: parseInt(code),
+      },
+    });
+    res.status(200).json("Produto deletado com sucesso!");
   } catch (err) {
     res.json(err);
   }
