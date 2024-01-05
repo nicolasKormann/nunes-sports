@@ -28,3 +28,24 @@ export const getProducts = async (req: Request, res: Response) => {
     res.json(err);
   }
 };
+
+// ### UPDATE
+export const updateProduct = async (req: Request, res: Response) => {
+  const { code, name, description, price } = req.body;
+  try {
+    const product = await prismaClient.product.update({
+      where: {
+        code,
+      },
+      data: {
+        code,
+        name,
+        description,
+        price,
+      },
+    });
+    res.status(200).json("Produto atualizado com sucesso!");
+  } catch (err) {
+    res.json(err);
+  }
+};
