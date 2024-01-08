@@ -1,9 +1,9 @@
-import Table from "./components/Table.jsx";
+import Products from "./Pages/Products.jsx";
 
 function App() {
   return (
     <>
-      <Table />
+      <Products />
     </>
   );
 }
