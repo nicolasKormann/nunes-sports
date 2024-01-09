@@ -72,7 +72,7 @@ Explore a versão online do Nunes Sports em https://nunes-sports.vercel.app/
 Contribuições são bem-vindas! Se você encontrar problemas ou desejar aprimorar o Nunes Sports, sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
 ## Contato
-Para mais informações, entre em contato conosco em nicolas.kormann@proton.me
+Para mais informações, entre em contato comigo em nicolas.kormann@proton.me
 
 Divirta-se explorando o Nunes Sports! 🚀🏀⚽🏈
 
