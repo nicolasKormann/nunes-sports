@@ -8,6 +8,6 @@ app.use(cors());
 
 const port = process.env.PORT ?? 4000;
 
-app.use("/", productRouter);
+app.use("/api/products", productRouter);
 
 app.listen(port, () => console.log("Server is running on port", port));
