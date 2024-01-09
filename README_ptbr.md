@@ -61,7 +61,7 @@ npm run dev     # ou yarn dev
 6. Inicie o aplicativo frontend.
    
 ```
-npm start     # ou yarn start
+npm run dev     # ou yarn dev
 ```
 
 ## Versão Online
