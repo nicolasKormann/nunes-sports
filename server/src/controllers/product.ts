@@ -13,7 +13,7 @@ export const createProduct = async (req: Request, res: Response) => {
         price,
       },
     });
-    res.status(201).json("Usuário criado com sucesso!");
+    res.status(201).json("Produto criado com sucesso!");
   } catch (err) {
     res.json(err);
   }
