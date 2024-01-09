@@ -19,18 +19,17 @@ const MobileCards = ({
         >
           <div className="p-4">
             <div className="flex justify-between items-baseline">
-              <h3 className="text-lg font-semibold mb-2 text-slate-100">
+              <h3 className="text-base font-semibold mb-2 text-slate-100">
                 {product.name}
               </h3>
-              <p className="text-sm text-slate-400">Código: {product.code}</p>
             </div>
-            <p className="text-slate-200 mb-2">
+            <p className="text-sm text-slate-200 mb-2">
               {product.price.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}
             </p>
-            <p className="text-slate-200">{product.description}</p>
+            <p className="text-sm text-slate-200">{product.description}</p>
           </div>
           <div className="flex justify-between p-4 pt-0">
             <div className="flex space-x-2">
@@ -50,6 +49,7 @@ const MobileCards = ({
                 />
               </button>
             </div>
+            <p className="text-xs	 text-slate-400">Código: {product.code}</p>
           </div>
         </div>
       ))}
