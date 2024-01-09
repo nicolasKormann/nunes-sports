@@ -16,12 +16,11 @@ const Products = () => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [onEdit, setOnEdit] = useState(null);
 
-  const url = "http://localhost:4000/api/products";
+  const url = import.meta.env.VITE_APP_API_URL;
 
   const getProducts = async () => {
     try {
       const response = await axios.get(url);
-      console.log(response.data);
       setProducts(
         response.data.sort((a, b) =>
           a.name.toLowerCase().localeCompare(b.name.toLowerCase())
@@ -50,7 +49,7 @@ const Products = () => {
       price = price.replace("R$", "").trim();
 
       const response = await axios.put(
-        `http://localhost:4000/api/products/${productForm.code}`,
+        `${url}/${productForm.code}`,
         {
           name: productForm.name,
           description: productForm.description,
@@ -71,8 +70,7 @@ const Products = () => {
     }
   };
 
-  const handleCreate = async (newProduct) => {
-    console.log(newProduct);
+  const handleCreate = async (newProduct) => {    
     try {
       let price = `${newProduct.price}`;
       price = price.replace(",", ".");

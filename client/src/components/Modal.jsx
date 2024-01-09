@@ -38,7 +38,6 @@ const Modal = ({ openModal, setOpenModal, handleCreate }) => {
     handleCreate(userInput);
     setOpenModal(false);
     setUserInput({ code: "", name: "", description: "", price: "" });
-    console.log("Veio do moda: ", userInput);
   };
 
   useEffect(() => {
