@@ -1,13 +1,13 @@
 import Header from "../components/Header";
 import Table from "../components/Table";
 import Title from "../components/Title";
+import MobileCards from "../components/MobileCards";
+import EditModal from "../components/EditModal";
+import Modal from "../components/Modal";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import MobileCards from "../components/MobileCards";
-import EditModal from "../components/EditModal";
-import Modal from "../components/Modal";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -21,7 +21,12 @@ const Products = () => {
   const getProducts = async () => {
     try {
       const response = await axios.get(url);
-      setProducts(response.data);
+      console.log(response.data);
+      setProducts(
+        response.data.sort((a, b) =>
+          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+        )
+      );
     } catch (err) {
       toast.error(err);
     }
@@ -29,10 +34,10 @@ const Products = () => {
 
   const handleDelete = async (code) => {
     try {
-      const data = await axios.delete(`${url}/${code}`);
+      const response = await axios.delete(`${url}/${code}`);
       const newArray = products.filter((product) => product.code !== code);
       setProducts(newArray);
-      toast.success(data);
+      toast.success(response.data);
     } catch (err) {
       toast.error(err);
     }
@@ -40,10 +45,10 @@ const Products = () => {
 
   const handleEdit = async (productForm) => {
     try {
-      console.log(productForm);
-      let price = productForm.price.toString();
-      price = productForm.price.replace(",", ".");
+      let price = `${productForm.price}`;
+      price = price.replace(",", ".");
       price = price.replace("R$", "").trim();
+
       const response = await axios.put(
         `http://localhost:4000/api/products/${productForm.code}`,
         {
@@ -52,13 +57,41 @@ const Products = () => {
           price: Number(price),
         }
       );
-      toast.success(response.data);
-      setProducts(
-        products.map((product) =>
+      const newArray = products
+        .map((product) =>
           product.code === productForm.code ? productForm : product
         )
+        .sort((a, b) =>
+          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+        );
+      setProducts(newArray);
+      toast.success(response.data);
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  const handleCreate = async (newProduct) => {
+    console.log(newProduct);
+    try {
+      let price = `${newProduct.price}`;
+      price = price.replace(",", ".");
+      price = price.replace("R$", "").trim();
+
+      const response = await axios.post(url, {
+        code: Number(newProduct.code),
+        name: newProduct.name,
+        description: newProduct.description,
+        price: Number(price),
+      });
+
+      const updatedProducts = [...products, newProduct];
+      updatedProducts.sort((a, b) =>
+        a.name.toLowerCase().localeCompare(b.name.toLowerCase())
       );
-      console.log(response.data);
+      setProducts(updatedProducts);
+
+      toast.success(response.data);
     } catch (error) {
       toast.error(error);
     }
@@ -97,7 +130,11 @@ const Products = () => {
         setOpenEditModal={setOpenEditModal}
         setOnEdit={setOnEdit}
       />
-      <Modal openModal={openModal} setOpenModal={setOpenModal} />
+      <Modal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        handleCreate={handleCreate}
+      />
       {onEdit && (
         <EditModal
           openModal={openEditModal}
@@ -109,6 +146,18 @@ const Products = () => {
           handleEdit={handleEdit}
         />
       )}
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 };

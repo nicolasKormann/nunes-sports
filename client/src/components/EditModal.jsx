@@ -46,29 +46,25 @@ const EditModal = ({
     const { name, value } = event.target;
 
     if (name === "price") {
-      let numericValue = value.replace(/[^\d,]/g, "");
-
-      const decimalParts = numericValue.split(",");
+      let formatedPrice = value.replace(/[^\d,]/g, "");
+      const decimalParts = formatedPrice.split(",");
       if (decimalParts.length > 1) {
-        numericValue = `${decimalParts[0]},${decimalParts[1].slice(0, 2)}`;
+        formatedPrice = `${decimalParts[0]},${decimalParts[1].slice(0, 2)}`;
       }
-
-      setFormValues(() => ({
-        ...formValues,
-        [name]: `R$ ${numericValue}`,
+      setFormValues((prevState) => ({
+        ...prevState,
+        [name]: `R$ ${formatedPrice}`,
       }));
     } else {
-      setFormValues(() => ({ ...formValues, [name]: value.slice(0, 40) }));
+      setFormValues((prevState) => ({
+        ...prevState,
+        [name]: value.slice(0, 40),
+      }));
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    if (!formValues.name || !formValues.description || !formValues.price) {
-      return toast.warning("Preencha todos os campos");
-    }
-
     handleEdit(formValues);
     setOpenModal(false);
     setOnEdit(null);
@@ -136,7 +132,7 @@ const EditModal = ({
                             name="name"
                             value={formValues.name}
                             type="text"
-                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
+                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
                             placeholder="Nome"
                             onChange={handleChange}
                             required
@@ -146,9 +142,10 @@ const EditModal = ({
                             name="description"
                             value={formValues.description}
                             type="text"
-                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
+                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
                             placeholder="Descrição"
                             onChange={handleChange}
+                            required
                           />
 
                           <input
@@ -158,9 +155,10 @@ const EditModal = ({
                               currency: "BRL",
                             })}
                             type="text"
-                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
+                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
                             placeholder="Preço"
                             onChange={handleChange}
+                            required
                           />
 
                           <button
@@ -168,7 +166,7 @@ const EditModal = ({
                             className="w-full bg-blue-500 text-slate-100 font-semibold p-2 px-4 mt-5 rounded-md hover:bg-blue-600 "
                             onClick={() => setOpenModal(true)}
                           >
-                            Cadastrar
+                            Editar
                           </button>
                         </form>
                       </div>

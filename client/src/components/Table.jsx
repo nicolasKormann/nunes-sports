@@ -18,7 +18,7 @@ const Table = ({
         <div className="flex items-center mb-4">
           <input
             type="text"
-            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700/50 w-full placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-blue-500"
+            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700/50 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500"
             placeholder="Pesquisar produtos"
             value={researchTerm}
             onChange={(e) => setresearchTerm(e.target.value)}

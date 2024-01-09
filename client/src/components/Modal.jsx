@@ -1,17 +1,51 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
 
-const Modal = ({ openModal, setOpenModal }) => {
+const Modal = ({ openModal, setOpenModal, handleCreate }) => {
   const cancelButtonRef = useRef(null);
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState({
+    code: "",
+    name: "",
+    description: "",
+    price: "",
+  });
 
-  const handleInputChange = (event) => {
-    const inputText = event.target.value;
-    const limitedInput = inputText.slice(0, 40);
-    setUserInput(limitedInput);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    if (name === "price") {
+      let formatedPrice = value.replace(/[^\d,]/g, "");
+      const decimalParts = formatedPrice.split(",");
+      if (decimalParts.length > 1) {
+        formatedPrice = `${decimalParts[0]},${decimalParts[1].slice(0, 2)}`;
+      }
+      setUserInput((prevState) => ({
+        ...prevState,
+        [name]: `R$ ${formatedPrice}`,
+      }));
+    } else {
+      setUserInput((prevState) => ({
+        ...prevState,
+        [name]: value.slice(0, 40),
+      }));
+    }
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleCreate(userInput);
+    setOpenModal(false);
+    setUserInput({ code: "", name: "", description: "", price: "" });
+    console.log("Veio do moda: ", userInput);
+  };
+
+  useEffect(() => {
+    if (!openModal) {
+      setUserInput({ code: "", name: "", description: "", price: "" });
+    }
+  }, [openModal]);
 
   return (
     <Transition.Root show={openModal} as={Fragment}>
@@ -61,39 +95,46 @@ const Modal = ({ openModal, setOpenModal }) => {
                         Novo Produto
                       </Dialog.Title>
                       <div className="mt-6 md:mt-8">
-                        <form className="w-full">
+                        <form className="w-full" onSubmit={handleSubmit}>
                           <input
                             type="number"
-                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-blue-500"
+                            name="code"
+                            value={userInput.code}
+                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500"
                             placeholder="Código"
+                            onChange={handleChange}
                           />
 
                           <input
                             type="text"
-                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
+                            name="name"
+                            value={userInput.name}
+                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
                             placeholder="Nome"
+                            onChange={handleChange}
                           />
 
                           <input
                             type="text"
-                            value={userInput}
-                            onChange={handleInputChange}
-                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
+                            name="description"
+                            value={userInput.description}
+                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
                             placeholder="Descrição"
+                            onChange={handleChange}
                           />
 
                           <input
                             type="text"
-                            value={userInput}
-                            onChange={handleInputChange}
-                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
+                            name="price"
+                            value={userInput.price}
+                            className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
                             placeholder="Preço"
+                            onChange={handleChange}
                           />
 
                           <button
                             type="submit"
                             className="w-full bg-blue-500 text-slate-100 font-semibold p-2 px-4 mt-5 rounded-md hover:bg-blue-600 "
-                            onClick={() => setOpenModal(true)}
                           >
                             Cadastrar
                           </button>
