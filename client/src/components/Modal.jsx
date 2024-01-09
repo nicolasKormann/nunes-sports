@@ -103,6 +103,7 @@ const Modal = ({ openModal, setOpenModal, handleCreate }) => {
                             className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500"
                             placeholder="Código"
                             onChange={handleChange}
+                            required
                           />
 
                           <input
@@ -112,6 +113,7 @@ const Modal = ({ openModal, setOpenModal, handleCreate }) => {
                             className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
                             placeholder="Nome"
                             onChange={handleChange}
+                            required
                           />
 
                           <input
@@ -121,6 +123,7 @@ const Modal = ({ openModal, setOpenModal, handleCreate }) => {
                             className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
                             placeholder="Descrição"
                             onChange={handleChange}
+                            required
                           />
 
                           <input
@@ -130,6 +133,7 @@ const Modal = ({ openModal, setOpenModal, handleCreate }) => {
                             className="p-2 px-4 rounded-md text-slate-400 bg-slate-700 w-full placeholder:text-slate-400/50 focus:outline-none focus:ring focus:ring-blue-500 mt-5"
                             placeholder="Preço"
                             onChange={handleChange}
+                            required
                           />
 
                           <button
