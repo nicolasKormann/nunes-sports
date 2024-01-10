@@ -1,13 +1,13 @@
+import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+
 import Header from "../components/Header";
 import Table from "../components/Table";
 import Title from "../components/Title";
 import MobileCards from "../components/MobileCards";
 import EditModal from "../components/Modals/EditModal";
 import CreateModal from "../components/Modals/CreateModal";
-
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import ApiService from "../services/ApiService";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -15,17 +15,13 @@ const Products = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [onEdit, setOnEdit] = useState(null);
-
   const url = import.meta.env.VITE_APP_API_URL;
+  const apiService = ApiService();
 
   const getProducts = async () => {
     try {
-      const response = await axios.get(url);
-      setProducts(
-        response.data.sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-        )
-      );
+      const response = await apiService.getProducts(url);
+      setProducts(response);
     } catch (err) {
       toast.error(err);
     }
@@ -33,10 +29,10 @@ const Products = () => {
 
   const handleDelete = async (code) => {
     try {
-      const response = await axios.delete(`${url}/${code}`);
+      const response = await apiService.deleteProduct(url, code);
       const newArray = products.filter((product) => product.code !== code);
       setProducts(newArray);
-      toast.success(response.data);
+      toast.success(response);
     } catch (err) {
       toast.error(err);
     }
@@ -44,18 +40,7 @@ const Products = () => {
 
   const handleEdit = async (productForm) => {
     try {
-      let price = `${productForm.price}`;
-      price = price.replace(",", ".");
-      price = price.replace("R$", "").trim();
-
-      const response = await axios.put(
-        `${url}/${productForm.code}`,
-        {
-          name: productForm.name,
-          description: productForm.description,
-          price: Number(price),
-        }
-      );
+      const response = await apiService.putProduct(url, productForm);
       const newArray = products
         .map((product) =>
           product.code === productForm.code ? productForm : product
@@ -64,32 +49,21 @@ const Products = () => {
           a.name.toLowerCase().localeCompare(b.name.toLowerCase())
         );
       setProducts(newArray);
-      toast.success(response.data);
+      toast.success(response);
     } catch (error) {
       toast.error(error);
     }
   };
 
-  const handleCreate = async (newProduct) => {    
+  const handleCreate = async (newProduct) => {
     try {
-      let price = `${newProduct.price}`;
-      price = price.replace(",", ".");
-      price = price.replace("R$", "").trim();
-
-      const response = await axios.post(url, {
-        code: Number(newProduct.code),
-        name: newProduct.name,
-        description: newProduct.description,
-        price: Number(price),
-      });
-
+      const response = await apiService.postProduct(url, newProduct);
       const updatedProducts = [...products, newProduct];
       updatedProducts.sort((a, b) =>
         a.name.toLowerCase().localeCompare(b.name.toLowerCase())
       );
       setProducts(updatedProducts);
-
-      toast.success(response.data);
+      toast.success(response);
     } catch (error) {
       toast.error(error);
     }
