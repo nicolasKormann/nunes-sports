@@ -39,13 +39,14 @@ const MobileCards = ({
                   {product.name}
                 </h3>
               </div>
-              <p className="text-sm text-slate-200 mb-2">
+
+              <p className="text-sm text-slate-200 mb-2">{product.description}</p>
+              <p className="text-sm text-slate-200">
                 {product.price.toLocaleString("pt-BR", {
                   style: "currency",
                   currency: "BRL",
                 })}
               </p>
-              <p className="text-sm text-slate-200">{product.description}</p>
             </div>
             <div className="flex justify-between p-4 pt-0">
               <div className="flex gap-4">
