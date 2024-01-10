@@ -2,7 +2,7 @@ import { Fragment, useEffect, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
-import { toast } from "react-toastify";
+
 
 const EditModal = ({
   openModal,
