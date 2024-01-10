@@ -2,8 +2,8 @@ import Header from "../components/Header";
 import Table from "../components/Table";
 import Title from "../components/Title";
 import MobileCards from "../components/MobileCards";
-import EditModal from "../components/EditModal";
-import Modal from "../components/Modal";
+import EditModal from "../components/Modals/EditModal";
+import CreateModal from "../components/Modals/CreateModal";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -128,7 +128,7 @@ const Products = () => {
         setOpenEditModal={setOpenEditModal}
         setOnEdit={setOnEdit}
       />
-      <Modal
+      <CreateModal
         openModal={openModal}
         setOpenModal={setOpenModal}
         handleCreate={handleCreate}

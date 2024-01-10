@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
+import DeleteModal from "./Modals/DeleteModal";
 
 const Table = ({
   researchTerm,
@@ -10,6 +12,18 @@ const Table = ({
 }) => {
   const handleEdit = (item) => {
     setOnEdit(item);
+  };
+  const [open, setOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
+
+  const handleDeleteClick = (item) => {
+    setItemToDelete(item);
+    setOpen(true);
+  };
+
+  const confirmDelete = () => {
+    handleDelete(itemToDelete.code);
+    setOpen(false);
   };
 
   return (
@@ -34,11 +48,11 @@ const Table = ({
           <table className="min-w-full shadow-md rounded-md overflow-hidden">
             <thead className=" text-slate-100 border-b border-slate-700">
               <tr className="">
-                <th className="py-2 px-4 text-left">Código</th>
-                <th className="py-2 px-4 text-left">Nome</th>
-                <th className="py-2 px-4 text-left">Descrição</th>
-                <th className="py-2 px-4 text-left">Preço</th>
-                <th className="py-2 px-4 text-center">Ações</th>
+                <th className="py-2 px-3 text-left">Código</th>
+                <th className="py-2 px-3 text-left">Nome</th>
+                <th className="py-2 px-3 text-left">Descrição</th>
+                <th className="py-2 px-3 text-left">Preço</th>
+                <th className="py-2 px-3 text-center">Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -47,10 +61,10 @@ const Table = ({
                   key={i}
                   className="hover:bg-slate-700 transition duration-300 border-b border-slate-700/50 text-slate-100 mb-3"
                 >
-                  <td className="py-2 px-4">{product.code}</td>
-                  <td className="py-2 px-4">{product.name}</td>
-                  <td className="py-2 px-4">{product.description}</td>
-                  <td className="py-2 px-4">
+                  <td className="py-2 px-3">{product.code}</td>
+                  <td className="py-2 px-3">{product.name}</td>
+                  <td className="py-2 px-3">{product.description}</td>
+                  <td className="py-2 px-3">
                     {product.price.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -69,7 +83,7 @@ const Table = ({
                     <button className="text-red-500 hover:text-red-600 focus:outline-none">
                       <FaRegTrashAlt
                         size={20}
-                        onClick={() => handleDelete(product.code)}
+                        onClick={() => handleDeleteClick(product)}
                       />
                     </button>
                   </td>
@@ -79,6 +93,11 @@ const Table = ({
           </table>
         </div>
       </div>
+      <DeleteModal
+        open={open}
+        setOpen={setOpen}
+        confirmDelete={confirmDelete}
+      />
     </>
   );
 };

@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
 
-const Modal = ({ openModal, setOpenModal, handleCreate }) => {
+const CreateModal = ({ openModal, setOpenModal, handleCreate }) => {
   const cancelButtonRef = useRef(null);
   const [userInput, setUserInput] = useState({
     code: "",
@@ -155,4 +155,4 @@ const Modal = ({ openModal, setOpenModal, handleCreate }) => {
   );
 };
 
-export default Modal;
+export default CreateModal;
