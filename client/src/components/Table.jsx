@@ -38,7 +38,7 @@ const Table = ({
             onChange={(e) => setresearchTerm(e.target.value)}
           />
           <button
-            className="text-blue-500 p-2 px-8 rounded-md ml-4 border border-blue-500 hover:bg-blue-500 hover:text-slate-100 transition duration-300"
+            className="text-blue-500 p-2 px-8 rounded-md ml-4 border border-blue-500 active:bg-blue-500 active:text-slate-100 md:hover:bg-blue-500 md:hover:text-slate-100 transition duration-300"
             onClick={() => setresearchTerm("")}
           >
             Limpar
